@@ -1,6 +1,7 @@
 (function(){
  window.SimpleCountdown = {
    callback: null,
+   callbackZero: null,
    computeTimeRemaining: function(deadline){
     var t = Date.parse(deadline) - Date.parse(new Date());
     var s = t > 0 ? Math.floor((t / 1000) % 60) : 0;
@@ -13,6 +14,9 @@
       'hours': h,
       'days': d
     };
+   },
+   isFinished: function(timeRemaining){
+      return timeRemaining.days == 0 && timeRemaining.hours == 0 && timeRemaining.minutes == 0 && timeRemaining.seconds == 0;
    },
    themes: {
      raw: {
@@ -32,11 +36,10 @@
            ".sc-legend{" +
     	    "display: block;" +
            "}"
-       },
-       js: ""
+       }
      }
    },
-   addTheme: function (newTheme, afterCallback) {
+   addTheme: function (newTheme, afterCallback, callbackZero) {
      for (p in newTheme) {
        if (newTheme.hasOwnProperty(p)) {
          this.themes[p] = newTheme[p];
@@ -44,6 +47,9 @@
      }
      if(afterCallback){
          this.callback = afterCallback;
+     }
+     if(callbackZero){
+         this.callbackZero = callbackZero; 
      }
    },
    loadCSS: function(theme){
@@ -63,6 +69,9 @@
     document.getElementById(container).innerHTML = '<div class="sc-title">' + this.themes[theme].content.title + '</div><div class="sc-brick"><span class="sc-number">' + t.days + '</span><span class="sc-legend">Days</span></div><div class="sc-brick"><span class="sc-number">' + t.hours + '</span><span class="sc-legend">Hours</span></div><div class="sc-brick"><span class="sc-number">' + t.minutes + '</span><span class="sc-legend">Minutes</span></div><div class="sc-brick"><span class="sc-number">' + t.seconds + '</span><span class="sc-legend">Seconds</span></div>';
     if(!refresh && this.callback){
       this.callback();
+    }
+    if(this.isFinished(t)){
+      this.callbackZero();
     }
    },
    autoDisplay: function(container, deadline, theme){
