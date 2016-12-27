@@ -1,6 +1,6 @@
 {
   "name": "simplecountdown",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple countdown with style customizable",
   "devDependencies": {
     "browserify": "latest",
