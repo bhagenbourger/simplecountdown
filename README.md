@@ -21,12 +21,17 @@ Add js to load countdown:
 ```
 
 #Example with theme
-It is now possible to add custom theme to customize countdown style.
+It is possible to add custom theme to customize countdown style.
+
+Since v2.0.0, themes are in separated package:
+    - playa: https://www.npmjs.com/package/simplecountdown-theme-playa
+    - christmas: https://www.npmjs.com/package/simplecountdown-theme-christmas
+    - year: https://www.npmjs.com/package/simplecountdown-theme-year
 
 Theme should be specified adding a third parameter to autoDisplay method, if no theme is specified, raw theme is used by default. A theme named "playa" is provided with this countdown. For use playa theme, include playa.js file in your page:
 ```javascript
 <script type="text/javascript" src="simplecountdown.js"></script>
-<script type="text/javascript" src="themes/playa.js"></script>
+<script type="text/javascript" src="simplecountdown-theme-playa.js"></script>
 ```
 
 Add div container:
