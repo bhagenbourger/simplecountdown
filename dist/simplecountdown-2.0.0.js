@@ -1,7 +1,7 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function(){
  window.SimpleCountdown = {
    callback: null,
+   callbackZero: null,
    computeTimeRemaining: function(deadline){
     var t = Date.parse(deadline) - Date.parse(new Date());
     var s = t > 0 ? Math.floor((t / 1000) % 60) : 0;
@@ -14,6 +14,9 @@
       'hours': h,
       'days': d
     };
+   },
+   isFinished: function(timeRemaining){
+      return timeRemaining.days == 0 && timeRemaining.hours == 0 && timeRemaining.minutes == 0 && timeRemaining.seconds == 0;
    },
    themes: {
      raw: {
@@ -33,11 +36,10 @@
            ".sc-legend{" +
     	    "display: block;" +
            "}"
-       },
-       js: ""
+       }
      }
    },
-   addTheme: function (newTheme, afterCallback) {
+   addTheme: function (newTheme, afterCallback, callbackZero) {
      for (p in newTheme) {
        if (newTheme.hasOwnProperty(p)) {
          this.themes[p] = newTheme[p];
@@ -45,6 +47,9 @@
      }
      if(afterCallback){
          this.callback = afterCallback;
+     }
+     if(callbackZero){
+         this.callbackZero = callbackZero; 
      }
    },
    loadCSS: function(theme){
@@ -65,6 +70,9 @@
     if(!refresh && this.callback){
       this.callback();
     }
+    if(this.isFinished(t)){
+      this.callbackZero();
+    }
    },
    autoDisplay: function(container, deadline, theme){
      this.display(container, deadline, theme, false);
@@ -72,5 +80,3 @@
    }
  };
 })();
-
-},{}]},{},[1]);
