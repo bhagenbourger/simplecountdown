@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm dist/*",
     "build": "cp simplecountdown.js dist/$npm_package_name-$npm_package_version.js && uglifyjs simplecountdown.js > dist/$npm_package_name-$npm_package_version.min.js",
-    "prepare": "npm run clean && npm run build && git switch -c $npm_package_version && git add . && git commit -a -m 'Release '$npm_package_version && git push origin $npm_package_version",
+    "prepublish": "npm run clean && npm run build && git switch -c $npm_package_version && git add . && git commit -a -m 'Release '$npm_package_version && git push origin $npm_package_version",
     "postpublish": "git tag $npm_package_version && git push origin --tags"
   },
   "main": "simplecountdown.js",
