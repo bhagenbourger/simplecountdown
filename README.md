@@ -1,7 +1,7 @@
 # simplecountdown
 A simple countdown
 
-# Simple example
+## Simple example
 Include library in your page:
 ```javascript
 <script type="text/javascript" src="simplecountdown.js"></script>
@@ -20,10 +20,10 @@ Add js to load countdown:
 </script>
 ```
 
-#Example with theme
+## Example with theme
 It is possible to add custom theme to customize countdown style.
 
-Since v2.0.0, themes are in separated package:
+Themes are in separated package:
 * playa: https://www.npmjs.com/package/simplecountdown-theme-playa
 * christmas: https://www.npmjs.com/package/simplecountdown-theme-christmas
 * year: https://www.npmjs.com/package/simplecountdown-theme-year
@@ -42,49 +42,31 @@ Add div container:
 Add js to load countdown:
 ```javascript
 <script type="text/javascript">
-  SimpleCountdown.autoDisplay('myCountdown', '2016-10-15 15:00:00', "playa");
+  SimpleCountdown.autoDisplay('myCountdown', '2022-10-15 15:00:00', "playa");
 </script>
 ```
 
-#Develop your own theme
+## Develop your own theme
 To develop your own theme you have to call addTheme method with a json object in paramter like describe below:
 ```javascript
 SimpleCountdown.addTheme(
   {
     myNewTheme: { // myNewTheme is the name of the theme, name to specify in method autoDisplay in third parameter
        content: {
-         title: "My title" // Title displayed above the counter
+         title: "My title", // Title displayed above the counter
+         custom: "My custom content" // Optional custom content set in a div with class='sc-custom', if this properties is not set the content of the div is empty
        },
        style: {
          container: ".sc-container{}", // sc-container is the class of countdown container
          title: ".sc-title{}", // sc-title is the class of title div, add your css here to customize title
          brick: ".sc-brick{}", // sc-brick is the class of each div which contains number and legend
          number: ".sc-number{}", // sc-number is the class of each span in which numbers are displayed
-         legend:".sc-legend{}" // sc-legend is the class of each span in which legend (day, hour, minute, second) is displayed
+         legend:".sc-legend{}", // sc-legend is the class of each span in which legend (day, hour, minute, second) is displayed
+         custom: ".sc-custom{}" // optional style for the custom div, sc-custom is the class of custom div which display the custom content (myNewTheme.content.custom)
        }
      }
-   }
-);
-```
-
-#Develop your own theme with javascript callback
-Since v1.4.0 it is possible to add a javascript callback called after the theme css application. This callback is optional, has no parameter and must be set in second paramter of addTheme function like describe below:
-```javascript
-SimpleCountdown.addTheme(
-  {
-    myNewTheme: { // myNewTheme is the name of the theme, name to specify in method autoDisplay in third parameter
-       content: {
-         title: "My title" // Title displayed above the counter
-       },
-       style: {
-         container: ".sc-container{}", // sc-container is the class of countdown container
-         title: ".sc-title{}", // sc-title is the class of title div, add your css here to customize title
-         brick: ".sc-brick{}", // sc-brick is the class of each div which contains number and legend
-         number: ".sc-number{}", // sc-number is the class of each span in which numbers are displayed
-         legend:".sc-legend{}" // sc-legend is the class of each span in which legend (day, hour, minute, second) is displayed
-       }
-     }
-   },
-   function myAfterCallback(){console.log('my first callback');}
+  },
+  function myCallback(){console.log('my callback')}, // optional callback called after the theme css application, this callback has no parameter and must be set in second parameter of addTheme function
+  function myCallbackZero(){console.log('my callback zero')} // optional callback called when time is over, this callback has no parameter and must be set in third parameter of addTheme function
 );
 ```
