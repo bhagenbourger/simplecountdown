@@ -70,3 +70,11 @@ SimpleCountdown.addTheme(
   function myCallbackZero(){console.log('my callback zero')} // optional callback called when time is over, this callback has no parameter and must be set in third parameter of addTheme function
 );
 ```
+
+## Release management (must be automated)
+- checkout master
+- run `npm install`
+- create new PR for branch $npm_package_version
+- merge the PR
+- checkout master
+- run `npm publish`
