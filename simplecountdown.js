@@ -97,7 +97,7 @@
     }
     return updatedDeadline;
    },
-   autoDisplay: function(container, deadline, theme, autoUpdateDeadline){
+   autoDisplay: function(container, deadline, autoUpdateDeadline, theme){
     if(autoUpdateDeadline){
       deadline = this.autoUpdate(deadline);
     }

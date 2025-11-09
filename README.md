@@ -16,9 +16,11 @@ Add js to load countdown:
 ```javascript
 <script type="text/javascript">
   var deadline = '2016-08-15 15:00:00';
-  SimpleCountdown.autoDisplay('myCountdown', deadline);
+  SimpleCountdown.autoDisplay('myCountdown', deadline, true);
 </script>
 ```
+
+The third parameter is a boolean indicating whether the deadline should be automatically updated to set a date in the future. In that case, if the date has passed, the year is updated to the following year.
 
 ## Example with theme
 It is possible to add custom theme to customize countdown style.
@@ -42,7 +44,7 @@ Add div container:
 Add js to load countdown:
 ```javascript
 <script type="text/javascript">
-  SimpleCountdown.autoDisplay('myCountdown', '2022-10-15 15:00:00', "playa");
+  SimpleCountdown.autoDisplay('myCountdown', '2022-10-15 15:00:00', true, "playa");
 </script>
 ```
 
