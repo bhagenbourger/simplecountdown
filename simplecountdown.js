@@ -89,9 +89,20 @@
       this.callbackZero();
     }
    },
-   autoDisplay: function(container, deadline, theme){
-     this.display(container, deadline, theme, false);
-     setInterval(function(){SimpleCountdown.display(container, deadline, theme, true);}, 1000);
+   autoUpdate(deadline){
+    var updatedDeadline = new Date(deadline);
+    updatedDeadline.setFullYear(new Date().getFullYear());
+    if(new Date() > updatedDeadline){
+      updatedDeadline.setFullYear(updatedDeadline.getFullYear() + 1);
+    }
+    return updatedDeadline;
+   },
+   autoDisplay: function(container, deadline, theme, autoUpdateDeadline){
+    if(autoUpdateDeadline){
+      deadline = this.autoUpdate(deadline);
+    }
+    this.display(container, deadline, theme, false);
+    setInterval(function(){SimpleCountdown.display(container, deadline, theme, true);}, 1000);
    }
  };
 })();
