@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+<head>
+  <title>Countdown</title>
+  <script type="text/javascript" src="../simplecountdown.js"></script>
+
+  <style>
+    html, body {
+      height: 100%;
+      text-align: center;
+      margin: 0px;
+      padding: 0px;
+    }
+    .main {
+      height: 100%;
+      width: 100%;
+      display: table;
+    }
+    .wrapper {
+      display: table-cell;
+      height: 100%;
+      width: auto;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <div id="myCountdown" class="wrapper"></div>
+  </div>
+  <script type="text/javascript">
+    var deadline = '2022-10-25 00:00:00';
+    SimpleCountdown.autoDisplayFromUrl('myCountdown');
+  </script>
+</body>
+
+</html>
