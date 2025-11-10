@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Form Generator</title>
+    <script type="text/javascript" src="../simplecountdown.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="date"], input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #url-result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #28a745;
+            background-color: #e2ffe8;
+            border-radius: 4px;
+            word-wrap: break-word;
+        }
+        #url-result h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Countdown URL Generator</h1>
+
+    <form id="countdownForm">
+        <label for="d">Deadline:</label>
+        <input type="date" id="d" name="d" required>
+
+        <label>
+            <input type="checkbox" id="a" name="a">
+            Auto update deadline
+        </label>
+
+        <label for="h">Theme:</label>
+        <select id="h" name="h" required>
+            <option value="raw">Raw</option>
+        </select>
+
+        <label for="t">Title:</label>
+        <input type="text" id="t" name="t" placeholder="e.g., Christmas Countdown" maxlength="256" required>
+
+        <button type="submit">Generate URL</button>
+    </form>
+
+    <div id="url-result">
+        <h3>Generated URL Result:</h3>
+        <p id="result-content">Submit the form to see the generated URL.</p>
+    </div>
+
+    <script>
+        document.getElementById('countdownForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const deadlineInput = document.getElementById('d');
+            const autoUpdateCheckbox = document.getElementById('a');
+            const themeSelect = document.getElementById('h');
+            const titleInput = document.getElementById('t');
+
+            const d_value = deadlineInput.value;
+            const a_value = autoUpdateCheckbox.checked;
+            const h_value = themeSelect.value;
+            const t_value = titleInput.value;
+
+            const resultUrl = SimpleCountdown.generateUrl("/examples/auto_display_from_url.html", d_value, a_value, h_value, t_value);
+            document.getElementById('result-content').textContent = resultUrl;
+        });
+    </script>
+
+</body>
+</html>
