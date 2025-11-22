@@ -18,6 +18,41 @@
    isFinished: function(timeRemaining){
       return timeRemaining.days == 0 && timeRemaining.hours == 0 && timeRemaining.minutes == 0 && timeRemaining.seconds == 0;
    },
+   encodeBase64: function(str) {
+    const utf8Bytes = new TextEncoder().encode(str);
+    const binaryString = String.fromCharCode.apply(null, utf8Bytes);
+    return btoa(binaryString);
+   },
+   decodeBase64: function(str) {
+    const binaryString = atob(str);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    const decoder = new TextDecoder('utf-8');
+    return decoder.decode(bytes);
+   },
+   generateUrl: function(urlPath, deadline, autoUpdateDeadline, theme, title) {
+    const data = {
+      d: deadline,
+      a: autoUpdateDeadline,
+      h: theme,
+      t: title ? title.substring(0, 256) : title
+    };
+    const jsonString = JSON.stringify(data);
+    const encodedString = this.encodeBase64(jsonString);
+    const url = new URL(window.location.href);
+    url.pathname = urlPath;
+    url.searchParams.set('d', encodedString);
+    return url.toString();
+   },
+   getDataFromUrl: function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const data = decodeURIComponent(urlParams.get('d'));
+    const decodedString = this.decodeBase64(data);
+    return JSON.parse(decodedString);
+   },
    themes: {
      raw: {
        content: {
@@ -64,7 +99,7 @@
       '</style>';
     document.getElementsByTagName('head')[0].appendChild(cssDiv.childNodes[0]);
    },
-   display: function(container, deadline, theme, refresh){
+   display: function(container, deadline, theme, title, refresh){
     theme = theme ? theme : "raw";
     if(!refresh){
     	this.loadCSS(theme);
@@ -73,9 +108,11 @@
     if(!refresh){
     	document.getElementById(container).className += " sc-container";
       document.getElementById(container).innerHTML =
-      '<div class="sc-title">' + this.themes[theme].content.title + '</div>' +
-      '<div id="sc-countdown"></div>' +
-      '<div class="sc-custom">' + (this.themes[theme].content.custom || "") + '</div>';
+        '<div id="sc-title" class="sc-title"></div>' +
+        '<div id="sc-countdown"></div>' +
+        '<div id="sc-custom" class="sc-custom"></div>';
+      document.getElementById("sc-title").textContent = (title || this.themes[theme].content.title);
+      document.getElementById("sc-custom").textContent = (this.themes[theme].content.custom || "");
 	  }
     document.getElementById("sc-countdown").innerHTML =
       '<div class="sc-brick"><span class="sc-number">' + t.days + '</span><span class="sc-legend">Days</span></div>' +
@@ -97,12 +134,28 @@
     }
     return updatedDeadline;
    },
-   autoDisplay: function(container, deadline, autoUpdateDeadline, theme){
+   autoDisplay: function(container, deadline, autoUpdateDeadline, theme, title){
     if(autoUpdateDeadline){
       deadline = this.autoUpdate(deadline);
     }
-    this.display(container, deadline, theme, false);
-    setInterval(function(){SimpleCountdown.display(container, deadline, theme, true);}, 1000);
+    this.display(container, deadline, theme, title, false);
+    setInterval(function(){SimpleCountdown.display(container, deadline, theme, title, true);}, 1000);
+   },
+   autoDisplayFromUrl: function(container){
+    try{
+      const data = this.getDataFromUrl();
+      this.autoDisplay(
+        container,
+        data.d,
+        data.a,
+        data.h,
+        data.t
+      );
+    } catch (e) {
+      console.error("Invalid parameters from url:", e);
+      document.getElementById(container).innerHTML = 
+        "Invalid parameters from URL.<br />We are not able to display your countdown.<br />Please check and try again.";
+    }
    }
  };
 })();

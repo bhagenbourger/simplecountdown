@@ -9,26 +9,32 @@ Include library in your page:
 
 Add div container:
 ```HTML
-<div id="myCountdown"></div>
+<div id="myCountdown" class="wrapper"></div>
 ```
 
 Add js to load countdown:
 ```javascript
 <script type="text/javascript">
   var deadline = '2016-08-15 15:00:00';
-  SimpleCountdown.autoDisplay('myCountdown', deadline, true);
+  SimpleCountdown.autoDisplay('myCountdown', deadline, true, theme, title);
 </script>
 ```
 
-The third parameter is a boolean indicating whether the deadline should be automatically updated to set a date in the future. In that case, if the date has passed, the year is updated to the following year.
+The third parameter is a boolean indicating whether the deadline should be automatically updated to set a date in the future. In that case, if the date has passed, the year is updated to the following year.  
+`theme` is an optional parameter to specify the theme to use, default is "raw", see below.  
+`title` is an optional parameter, when not set the title of the theme is used.
+
+An example is available here: [example](examples/auto_display.html)
 
 ## Example with theme
 It is possible to add custom theme to customize countdown style.
 
 Themes are in separated package:
-* playa: https://www.npmjs.com/package/simplecountdown-theme-playa
+* baby: https://www.npmjs.com/package/simplecountdown-theme-baby
 * christmas: https://www.npmjs.com/package/simplecountdown-theme-christmas
+* playa: https://www.npmjs.com/package/simplecountdown-theme-playa
 * year: https://www.npmjs.com/package/simplecountdown-theme-year
+
 
 Theme should be specified adding a third parameter to autoDisplay method, if no theme is specified, raw theme is used by default. A theme named "playa" is provided with this countdown. For use playa theme, include playa.js file in your page:
 ```javascript
@@ -47,6 +53,36 @@ Add js to load countdown:
   SimpleCountdown.autoDisplay('myCountdown', '2022-10-15 15:00:00', true, "playa");
 </script>
 ```
+
+## Dynamic example
+It is possible to grab countdown content from the url.  
+Include library in your page:
+```javascript
+<script type="text/javascript" src="simplecountdown.js"></script>
+```
+
+Add div container:
+```HTML
+<div id="myCountdown" class="wrapper"></div>
+```
+
+Add js to load countdown:
+```javascript
+<script type="text/javascript">
+    var deadline = '2022-10-25 00:00:00';
+    SimpleCountdown.autoDisplayFromUrl('myCountdown');
+</script>
+```
+
+An example is available here: [example](examples/auto_display_from_url.html)
+
+To generate the url, you can use `SimpleCountdown.generateUrl(urlPath, deadline, autoUpdateDeadline, theme, title)` function.  
+The parameters of this function are:
+ - `urlPath`: the url base path, for example: "https://example.org"
+ - `deadline`: the deadline of the countdown, for example: "2022-10-25 00:00:00"
+ - `autoUpdateDeadline`: is a boolean indicating whether the deadline should be automatically updated to set a date in the future. In that case, if the date has passed, the year is updated to the following year. For example: true
+ - `theme`: the theme to use, for example: "raw"
+ - `title`: the title of the countdown, for example: "my super title"
 
 ## Develop your own theme
 To develop your own theme you have to call addTheme method with a json object in paramter like describe below:
